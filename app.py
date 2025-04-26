@@ -1,57 +1,50 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.preprocessing import MinMaxScaler
-from textblob import TextBlob
-
-# --- AI-Powered Tax Strategy Suggestions ---
 def recommend_tax_efficient_portfolio(risk, income):
     if risk == "High":
         if income > 100000:
-            return "For high-income earners, invest in tax-efficient ETFs like Vanguard Tax-Managed Fund (VTCLX) or tax-exempt municipal bonds."
+            return "For high-income earners, invest in tax-efficient ETFs like **Vanguard Tax-Managed Fund (VTCLX)** or tax-exempt municipal bonds."
         else:
-            return "Consider index funds like Vanguard S&P 500 ETF (VOO), which have low capital gains taxes due to their tax efficiency."
+            return "Consider index funds like **Vanguard S&P 500 ETF (VOO)**, which have low capital gains taxes due to their tax efficiency."
     elif risk == "Medium":
-        return "For a moderate-risk portfolio, consider including tax-advantaged accounts like IRAs or Roth IRAs, and invest in tax-efficient funds like Vanguard Total Stock Market ETF (VTI)."
+        return "For a moderate-risk portfolio, consider including tax-advantaged accounts like **IRAs** or **Roth IRAs**, and invest in tax-efficient funds like **Vanguard Total Stock Market ETF (VTI)**."
     else:
-        return "For low-risk portfolios, invest in tax-exempt municipal bonds or tax-efficient bond ETFs like Schwab U.S. Aggregate Bond ETF (SCHZ) to minimize tax burdens."
+        return "For low-risk portfolios, invest in **tax-exempt municipal bonds** or tax-efficient bond ETFs like **Schwab U.S. Aggregate Bond ETF (SCHZ)** to minimize tax burdens."
 
-def display_tax_strategy(risk, income):
+def recommend_esg_portfolio(risk):
+    if risk == "High":
+        return "For high-risk portfolios, consider ESG funds like **iShares MSCI Global Impact ETF (SDG)** or **SPYG**, which focus on sustainable growth sectors."
+    elif risk == "Medium":
+        return "For medium-risk portfolios, consider **iShares ESG MSCI USA ETF (ESGU)** for exposure to sustainable companies with moderate growth."
+    else:
+        return "For conservative investors, try **Vanguard FTSE Social Index Fund (VFTSX)** or **iShares MSCI KLD 400 Social ETF (DSI)** for a safe, socially responsible portfolio."
+
+def suggest_investment_strategies(risk, goal):
+    strategies = []
+    if goal == "Retirement":
+        if risk == "High":
+            strategies.append("Consider increasing your stock allocation for long-term growth, especially in the tech and renewable energy sectors.")
+        else:
+            strategies.append("Rebalance your portfolio every year to ensure you're on track to meet retirement goals.")
+    elif goal == "Emergency Fund":
+        strategies.append("Keep at least 3-6 months of expenses in cash or short-term bonds for safety.")
+    return strategies
+
+def display_esg_and_tax(risk, income, goal):
     tax_efficiency = recommend_tax_efficient_portfolio(risk, income)
-    st.subheader("💡 Tax-Efficient Portfolio Recommendations:")
+    esg_recommendation = recommend_esg_portfolio(risk)
+    investment_strategy = suggest_investment_strategies(risk, goal)
+    
+    st.subheader("📝 Tax-Efficient Portfolio Recommendations:")
     st.write(tax_efficiency)
-
-# --- Portfolio Risk Visualization (Correlation and Heatmap) ---
-def plot_portfolio_risk(assets):
-    # Simulate stock data (for the sake of this example)
-    data = pd.DataFrame({
-        'Asset': assets,
-        'Volatility': np.random.rand(len(assets)) * 20,  # Simulated volatilities
-        'Correlation': np.random.rand(len(assets))  # Simulated correlation with a market index
-    })
     
-    # Correlation matrix (for simplicity, using random values)
-    correlation_matrix = np.random.rand(len(assets), len(assets))
-    np.fill_diagonal(correlation_matrix, 1)  # Diagonal should be 1, as assets are fully correlated with themselves
+    st.subheader("🌱 ESG Portfolio Recommendations:")
+    st.write(esg_recommendation)
     
-    # Create a heatmap using Matplotlib (instead of Seaborn)
-    fig, ax = plt.subplots(figsize=(8, 6))
-    cax = ax.matshow(correlation_matrix, cmap="coolwarm")
-    plt.xticks(range(len(assets)), assets)
-    plt.yticks(range(len(assets)), assets)
-    fig.colorbar(cax)
-    plt.title("Portfolio Risk Correlation Heatmap")
-    st.pyplot()
-
-    # Plot volatility
-    fig, ax = plt.subplots()
-    ax.bar(data['Asset'], data['Volatility'], color='skyblue')
-    ax.set_ylabel("Volatility")
-    ax.set_title("Asset Volatility")
-    st.pyplot()
+    st.subheader("💡 Investment Strategies:")
+    for strategy in investment_strategy:
+        st.write(f"- {strategy}")
 
 # --- Streamlit Integration ---
+
 st.title("💸 AI Investment Portfolio Recommender")
 
 # User Inputs
@@ -62,22 +55,13 @@ goal = st.selectbox("Select your investment goal:", [
     "Emergency Fund", "Vacation", "Buying a Car", "Paying for a Wedding", 
     "Graduate School", "Down Payment on a House", "Retirement", "Wealth Accumulation"])
 
-# Define a sample portfolio
-portfolio = {
-    "Stocks": 60,
-    "Bonds": 30,
-    "Real Estate": 5,
-    "Cash": 5
-}
-
 if st.button("Generate My Portfolio"):
-    # Display portfolio allocation
+    portfolio = recommend_portfolio(age, risk, goal)
     st.subheader("📊 Recommended Portfolio Allocation:")
     for asset, percent in portfolio.items():
         st.write(f"**{asset}:** {percent}%")
+    
+    fig = plot_portfolio(portfolio)
+    st.pyplot(fig)
 
-    # Plot portfolio risk (correlation heatmap and volatility)
-    plot_portfolio_risk(list(portfolio.keys()))
-
-    # Display tax strategy
-    display_tax_strategy(risk, income)
+    display_esg_and_tax(risk, income, goal)
