@@ -102,7 +102,7 @@ take_profit_percentage = st.number_input("Enter take-profit percentage:", min_va
 if st.button("Generate My Portfolio"):
     # Display Portfolio Allocation
     portfolio = recommend_portfolio(age, risk, goal)
-    st.subheader("📊 Recommended Portfolio Allocation:")
+    st.subheader(" Recommended Portfolio Allocation:")
     for asset, percent in portfolio.items():
         st.write(f"**{asset}:** {percent}%")
     
@@ -119,18 +119,18 @@ if st.button("Generate My Portfolio"):
 
     # Risk Management (Stop-Loss & Take-Profit)
     stop_loss, take_profit = stop_loss_take_profit(stock_price, stop_loss_percentage, take_profit_percentage)
-    st.subheader("💡 Stop-Loss & Take-Profit Levels")
+    st.subheader(" Stop-Loss & Take-Profit Levels")
     st.write(f"Stop-Loss Price: ${stop_loss:.2f}")
     st.write(f"Take-Profit Price: ${take_profit:.2f}")
     
     # Tax-Efficient Portfolio Suggestions
     tax_efficiency = recommend_tax_efficient_portfolio(risk, income)
-    st.subheader("📝 Tax-Efficient Portfolio Recommendations:")
+    st.subheader(" Tax-Efficient Portfolio Recommendations:")
     st.write(tax_efficiency)
     
     # ESG Portfolio Suggestions
     esg_recommendation = recommend_esg_portfolio(risk)
-    st.subheader("🌱 ESG Portfolio Recommendations:")
+    st.subheader(" ESG Portfolio Recommendations:")
     st.write(esg_recommendation)
     
     # Investment Strategy Suggestions
