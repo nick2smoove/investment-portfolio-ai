@@ -81,7 +81,7 @@ st.title("💸 AI Investment Portfolio Recommender")
 st.write("Answer a few quick questions and get a smart, AI-personalized investment portfolio!")
 
 age = st.number_input("Enter your age:", min_value=10, max_value=100, value=30)
-risk = st.selectbox("Select your risk tolerance:", ["Low", "Medium", "High"])
+risk = st.selectbox("How much risk you are willing to take on:", ["Low", "Medium", "High"])
 goal = st.selectbox("Select your investment goal:", [
     "Emergency Fund", "Vacation", "Buying a Car", "Paying for a Wedding", 
     "Graduate School", "Down Payment on a House", "Retirement", "Wealth Accumulation"])
