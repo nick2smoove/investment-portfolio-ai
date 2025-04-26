@@ -97,6 +97,22 @@ def estimated_roi(age, risk, goal):
 
     return roi_stock, roi_bond, investment_duration
 
+def portfolio_diversification(risk):
+    if risk == "High":
+        return "Consider investing in high-growth sectors like tech, renewable energy, or biotech. Aim for stocks from different sectors to avoid sector-specific risk."
+    elif risk == "Medium":
+        return "A balanced portfolio should include stocks from various sectors like technology, healthcare, consumer goods, and financials to balance risk and growth."
+    else:
+        return "For a low-risk portfolio, consider bonds, dividend stocks, and ETFs. Diversifying between sectors like utilities, consumer staples, and healthcare will add stability."
+
+def recommend_etfs_or_mutual_funds(risk):
+    if risk == "High":
+        return "For high-risk investors, consider growth-focused ETFs like **ARK Innovation ETF (ARKK)** or **Vanguard Total Stock Market ETF (VTI)** for exposure to high-growth companies."
+    elif risk == "Medium":
+        return "Moderate-risk investors can explore ETFs like **Vanguard S&P 500 ETF (VOO)** or **iShares MSCI All Country World Index ETF (ACWI)** for a diversified, stable investment."
+    else:
+        return "For conservative portfolios, consider ETFs like **Vanguard Total Bond Market ETF (BND)**, **Schwab U.S. Dividend Equity ETF (SCHD)**, or **SPDR S&P Dividend ETF (SDY)** for steady returns with lower risk."
+
 def plot_portfolio(portfolio):
     labels = portfolio.keys()
     sizes = portfolio.values()
@@ -143,3 +159,11 @@ if st.button("Generate My Portfolio"):
     st.write(f"- **Stocks ROI (Annual):** {roi_stock}%")
     st.write(f"- **Bonds ROI (Annual):** {roi_bond}%")
     st.write(f"- **Recommended Investment Duration:** {investment_duration}")
+    
+    diversification_tips = portfolio_diversification(risk)
+    st.subheader("📈 Portfolio Diversification Tips:")
+    st.write(diversification_tips)
+    
+    etfs_or_mutual_funds = recommend_etfs_or_mutual_funds(risk)
+    st.subheader("📊 ETFs and Mutual Funds Recommendations:")
+    st.write(etfs_or_mutual_funds)
