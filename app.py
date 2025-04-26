@@ -29,14 +29,42 @@ def generate_tip(age, risk, goal):
     else:
         tip += "Prioritize stability and steady returns to meet your goals."
 
-    if goal == "Retirement":
+    if goal == "Emergency Fund":
+        tip += " For an emergency fund, focus on liquid, low-risk assets like cash or short-term bonds."
+    elif goal == "Vacation":
+        tip += " Vacation funds should be more liquid and safe, so consider low-risk investments."
+    elif goal == "Buying a Car":
+        tip += " For a car purchase, keep your investments low-risk to avoid price fluctuations."
+    elif goal == "Paying for a Wedding":
+        tip += " Weddings are a near-term goal, so stability is key. Invest in bonds and cash."
+    elif goal == "Graduate School":
+        tip += " For school, prioritize stability, but you might invest in moderate-risk bonds."
+    elif goal == "Down Payment on a House":
+        tip += " A down payment requires safety, so a mix of bonds and cash would be ideal."
+    elif goal == "Retirement":
         tip += " Keep a long-term focus and maximize your retirement account contributions."
-    elif goal == "Buying a House":
-        tip += " Since your goal is nearer-term, protect your capital with safer investments."
-    else:
-        tip += " Growing wealth long-term means you can afford to be patient and let compounding work."
+    elif goal == "Wealth Accumulation":
+        tip += " For long-term growth, stock-heavy portfolios will help you accumulate wealth."
 
     return tip
+
+def suggest_stocks(risk, goal):
+    if risk == "High":
+        if goal == "Retirement":
+            return "Consider investing in growth stocks like Tesla (TSLA), Amazon (AMZN), or Alphabet (GOOGL) for long-term gains."
+        elif goal == "Wealth Accumulation":
+            return "You can look at tech stocks like NVIDIA (NVDA) and Meta (META), which have high growth potential."
+        else:
+            return "Look into high-growth sectors like tech, biotech, or renewable energy. Stocks like Tesla and Square could be promising."
+    elif risk == "Medium":
+        if goal == "Retirement":
+            return "Consider a balanced mix of stocks like Apple (AAPL) and bonds like Vanguard Total Bond ETF (BND)."
+        elif goal == "Wealth Accumulation":
+            return "A blend of moderate-risk stocks such as Microsoft (MSFT) and dividends from consumer staples like Coca-Cola (KO)."
+        else:
+            return "Mix moderate-growth stocks with some defensive stocks like Procter & Gamble (PG) for stability."
+    else:
+        return "Low-risk options: Consider stable dividend stocks like Johnson & Johnson (JNJ) and utilities like Duke Energy (DUK) for steady returns."
 
 def plot_portfolio(portfolio):
     labels = portfolio.keys()
@@ -54,7 +82,9 @@ st.write("Answer a few quick questions and get a smart, AI-personalized investme
 
 age = st.number_input("Enter your age:", min_value=10, max_value=100, value=30)
 risk = st.selectbox("Select your risk tolerance:", ["Low", "Medium", "High"])
-goal = st.selectbox("Select your investment goal:", ["Retirement", "Buying a House", "Growing Wealth"])
+goal = st.selectbox("Select your investment goal:", [
+    "Emergency Fund", "Vacation", "Buying a Car", "Paying for a Wedding", 
+    "Graduate School", "Down Payment on a House", "Retirement", "Wealth Accumulation"])
 
 if st.button("Generate My Portfolio"):
     portfolio = recommend_portfolio(age, risk, goal)
@@ -68,4 +98,7 @@ if st.button("Generate My Portfolio"):
     
     smart_tip = generate_tip(age, risk, goal)
     st.success(f"💡 AI Tip: {smart_tip}")
-
+    
+    stocks = suggest_stocks(risk, goal)
+    st.subheader("📈 Suggested Stocks to Invest In:")
+    st.write(stocks)
