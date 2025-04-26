@@ -66,6 +66,37 @@ def suggest_stocks(risk, goal):
     else:
         return "Low-risk options: Consider stable dividend stocks like Johnson & Johnson (JNJ) and utilities like Duke Energy (DUK) for steady returns."
 
+def explain_bonds():
+    return (
+        "Bonds are essentially loans made to companies or governments that pay interest over time. "
+        "They are typically safer than stocks, but their returns are lower. Bonds are important for "
+        "stability and consistent income in a portfolio, especially for conservative investors. "
+        "They provide a predictable return with less risk of loss in volatile markets. "
+        "In general, the longer you invest in bonds, the more stable your return will be, but with "
+        "lower growth potential compared to stocks."
+    )
+
+def estimated_roi(age, risk, goal):
+    if risk == "High":
+        roi_stock = 8  # Higher return due to stocks
+        roi_bond = 3  # Lower return due to bonds
+    elif risk == "Medium":
+        roi_stock = 6  # More balanced return from stocks
+        roi_bond = 4  # Bonds are still safe but with moderate return
+    else:
+        roi_stock = 5  # Safe stock options with moderate return
+        roi_bond = 3  # Bonds for low-risk portfolios
+
+    # Goal-based investment duration suggestion
+    if goal in ["Emergency Fund", "Vacation", "Buying a Car", "Paying for a Wedding"]:
+        investment_duration = "short-term (1-3 years)"
+    elif goal in ["Graduate School", "Down Payment on a House"]:
+        investment_duration = "medium-term (3-5 years)"
+    else:
+        investment_duration = "long-term (5+ years)"
+
+    return roi_stock, roi_bond, investment_duration
+
 def plot_portfolio(portfolio):
     labels = portfolio.keys()
     sizes = portfolio.values()
@@ -81,7 +112,7 @@ st.title("💸 AI Investment Portfolio Recommender")
 st.write("Answer a few quick questions and get a smart, AI-personalized investment portfolio!")
 
 age = st.number_input("Enter your age:", min_value=10, max_value=100, value=30)
-risk = st.selectbox("How much risk you are willing to take on:", ["Low", "Medium", "High"])
+risk = st.selectbox("Select your risk tolerance:", ["Low", "Medium", "High"])
 goal = st.selectbox("Select your investment goal:", [
     "Emergency Fund", "Vacation", "Buying a Car", "Paying for a Wedding", 
     "Graduate School", "Down Payment on a House", "Retirement", "Wealth Accumulation"])
@@ -102,3 +133,13 @@ if st.button("Generate My Portfolio"):
     stocks = suggest_stocks(risk, goal)
     st.subheader("📈 Suggested Stocks to Invest In:")
     st.write(stocks)
+    
+    bonds_explanation = explain_bonds()
+    st.subheader("📉 Explanation of Bonds:")
+    st.write(bonds_explanation)
+    
+    roi_stock, roi_bond, investment_duration = estimated_roi(age, risk, goal)
+    st.subheader("📊 Estimated ROI & Investment Duration:")
+    st.write(f"- **Stocks ROI (Annual):** {roi_stock}%")
+    st.write(f"- **Bonds ROI (Annual):** {roi_bond}%")
+    st.write(f"- **Recommended Investment Duration:** {investment_duration}")
