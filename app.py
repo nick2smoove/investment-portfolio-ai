@@ -167,3 +167,4 @@ if st.button("Generate My Portfolio"):
     etfs_or_mutual_funds = recommend_etfs_or_mutual_funds(risk)
     st.subheader("📊 ETFs and Mutual Funds Recommendations:")
     st.write(etfs_or_mutual_funds)
+    
