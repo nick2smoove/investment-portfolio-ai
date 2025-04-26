@@ -51,7 +51,7 @@ def recommend_portfolio(age, risk, goal):
 def recommend_tax_efficient_portfolio(risk, income):
     if risk == "High":
         if income > 100000:
-            return "For high-income earners, invest in tax-efficient ETFs like Vanguard Tax-Managed Fund (VTCLX) or tax-exempt municipal bonds."
+            return "For high-income earners, invest in ETFs like Vanguard Tax-Managed Fund (VTCLX) or tax-exempt municipal bonds."
         else:
             return "Consider index funds like Vanguard S&P 500 ETF (VOO), which have low capital gains taxes due to their tax efficiency."
     elif risk == "Medium":
@@ -73,7 +73,7 @@ def suggest_investment_strategies(risk, goal):
     strategies = []
     if goal == "Retirement":
         if risk == "High":
-            strategies.append("Consider increasing your stock allocation for long-term growth, especially in the tech and renewable energy sectors.")
+            strategies.append("Consider increasing your stock for long-term growth, especially in the tech and renewable energy sectors.")
         else:
             strategies.append("Rebalance your portfolio every year to ensure you're on track to meet retirement goals.")
     elif goal == "Emergency Fund":
