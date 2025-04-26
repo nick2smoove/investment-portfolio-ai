@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from textblob import TextBlob
@@ -36,9 +35,12 @@ def plot_portfolio_risk(assets):
     correlation_matrix = np.random.rand(len(assets), len(assets))
     np.fill_diagonal(correlation_matrix, 1)  # Diagonal should be 1, as assets are fully correlated with themselves
     
-    # Create a heatmap
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(correlation_matrix, annot=True, xticklabels=assets, yticklabels=assets, cmap="coolwarm", linewidths=0.5)
+    # Create a heatmap using Matplotlib (instead of Seaborn)
+    fig, ax = plt.subplots(figsize=(8, 6))
+    cax = ax.matshow(correlation_matrix, cmap="coolwarm")
+    plt.xticks(range(len(assets)), assets)
+    plt.yticks(range(len(assets)), assets)
+    fig.colorbar(cax)
     plt.title("Portfolio Risk Correlation Heatmap")
     st.pyplot()
 
